@@ -1,4 +1,4 @@
-So my ADCP request and processing scripts are in the attached zip file.  Like I said, it's kludgy, but its worked for me.
+Eli Hunter's OOI ADCP processing routines
 
 * query_rawdata_server_rec_v2.py
 * query_rawdata_server_tel_pd8_v2.py
@@ -7,11 +7,12 @@ So my ADCP request and processing scripts are in the attached zip file.  Like I 
 * process_ooi_ADCP_PD8_data_v2.py
 * process_ooi_ADCP_PD12_data_v2.py
 
-The query_rawdata*.py search for adcp data files in the telemetered and recovered directories on the raw data server.
+Download recovered data (which is PD0 format):
+query_rawdata_server_rec_v2.py 
 
-query_rawdata_server_rec_v2.py downloads recovered data (which is PD0 format).  
-
-query_rawdata_server_tel_pd8_v2.py and query_rawdata_server_tel_pd12_v2.py downloads telemetered data (the format depends on the particular mooring).  
+Doanload telemetered data (the format depends on the particular mooring):
+query_rawdata_server_tel_pd8_v2.py
+query_rawdata_server_tel_pd12_v2.py 
 
 The data go to a directory defined by the mooring ID.
 
