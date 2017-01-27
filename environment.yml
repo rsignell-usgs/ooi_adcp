@@ -1,0 +1,12 @@
+name: OOI
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - icu=56
+  - python=2.7
+  - matplotlib
+  - beautifulsoup4
+  - requests
+  - libnetcdf=4.4.0
+  - netcdf4

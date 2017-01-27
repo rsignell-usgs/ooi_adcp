@@ -5,8 +5,11 @@ import urllib,urllib2,re
 import optparse
 from bs4 import BeautifulSoup
 import requests
-#odir='/home/hunter/Projects/ooi/work/rawdata/'
-odir='/home/om/cron/pioneer/adcp/rec/'
+
+if 'OOI_DATADIR' in os.environ:
+   odir = os.path.join(os.environ['OOI_DATADIR'],'adcp','rec','')
+else:
+   odir='/home/om/cron/pioneer/adcp/rec/'
 
 url='https://rawdata.oceanobservatories.org/files/'
 #
@@ -23,7 +26,7 @@ def list_files(url):
     
     parts=url.split('/')
     page = requests.get(url).text
-    soup = BeautifulSoup(page)
+    soup = BeautifulSoup(page,'html_parser')
     for anchor in soup.find_all('a'):
         href = anchor.get('href')
         if href.endswith('/'):
@@ -45,6 +48,9 @@ def main(argv):
     for tag in wfp_moorlist:
         surl=url+tag
         print surl
+        mooring_dir = os.path.join(odir,tag)
+        if not os.path.exists(mooring_dir):
+            os.makedirs(mooring_dir)
         for n in range(20):
             print '/R%5.5d/' % n
             surl2=surl+'/R%5.5d/' % n

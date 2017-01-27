@@ -6,10 +6,13 @@ import optparse
 from bs4 import BeautifulSoup
 import requests
 
-#odir='/home/hunter/Projects/ooi/work/rawdata/'
-odir='/home/om/cron/pioneer/adcp/tel/'
-
 url='https://rawdata.oceanobservatories.org/files/'
+
+if 'OOI_DATADIR' in os.environ:
+   odir = os.path.join(os.environ['OOI_DATADIR'],'adcp','tel','')
+else:
+   odir='/home/om/cron/pioneer/adcp/tel/'
+
 
 wfp_moorlist=[ "CP02PMCI", "CP02PMCO", "CP02PMUI",  "CP02PMUO"]
 
@@ -56,6 +59,9 @@ def main(argv):
     for tag in wfp_moorlist:
         surl=url+tag
         print surl
+        mooring_dir = os.path.join(odir,tag)
+        if not os.path.exists(mooring_dir):
+            os.makedirs(mooring_dir)
         for n in range(20):
             print '/D%5.5d/' % n
             surl2=surl+'/D%5.5d/' % n

@@ -9,7 +9,12 @@ import datetime
 import struct
 #
 rtime=datetime.datetime(2013,01,01,00,00,00)
-odir='/home/om/cron/pioneer/adcp/tel/'
+
+if 'OOI_DATADIR' in os.environ:
+   odir = os.path.join(os.environ['OOI_DATADIR'],'adcp','tel','')
+else:
+   odir='/home/om/cron/pioneer/adcp/tel/'
+
 mlat={"CP02PMCI":40.2266,"CP02PMCO":40.0961, "CP02PMUI":40.3634,"CP02PMUO":39.9416} 
 mlon={"CP02PMCI":-70.8886,"CP02PMCO":-70.8797, "CP02PMUI":-70.7760,"CP02PMUO":-70.7784}
 bcut={"CP02PMCI":100,"CP02PMCO":100, "CP02PMUI":60,"CP02PMUO":300}

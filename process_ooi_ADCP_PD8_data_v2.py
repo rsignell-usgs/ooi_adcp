@@ -10,7 +10,13 @@ import datetime
 import struct
 #
 rtime=datetime.datetime(2013,01,01,00,00,00)
-odir='/home/om/cron/pioneer/adcp/tel/'
+
+
+if 'OOI_DATADIR' in os.environ:
+   odir = os.path.join(os.environ['OOI_DATADIR'],'adcp','tel','')
+else:
+   odir='/home/om/cron/pioneer/adcp/tel/'
+
 mlat={"CP03ISSM":39.94,"CP04OSSM":40.36,"CP01CNSM":40.1332} 
 mlon={"CP03ISSM":-70.88,"CP04OSSM":-70.88,"CP01CNSM":-70.8884}
 bcut={"CP03ISSM":70,"CP04OSSM":300,"CP01CNSM":100}
@@ -152,9 +158,9 @@ def read_write_PD8(moor,filelist,ncofile):
                             
     print time.min(),time.max()
     
-    plt.figure(1)
-    plt.plot(time,u, 'ro')           
-    plt.show()            
+#    plt.figure(1)
+#    plt.plot(time,u, 'ro')           
+#    plt.show()            
 
 def parse_ens(ens):
     data={}

@@ -1,19 +1,32 @@
 #!/usr/bin/env python
 #
+
 import os,sys
-sys.path.append('/home/om/cron/pioneer/adcp/rec')
+
+if 'OOI_CODEDIR' in os.environ:
+   code_dir = os.environ['OOI_CODEDIR']
+else:
+   code_dir = '/home/rsignell/github/ooi-adcp/'
+
+
+sys.path.append(code_dir)
+
+
 import glob,optparse
 from trdi_adcp_readers.pd0.pd0_parser import parse_pd0_bytearray
 from trdi_adcp_readers.pd0.pd0_parser import parse_fixed_header
 import numpy as np
-import matplotlib,netCDF4
+import netCDF4
 import matplotlib.pyplot as plt
 import datetime
 import struct
 #
 rtime=datetime.datetime(2013,01,01,00,00,00)
 
-odir='/home/om/cron/pioneer/adcp/rec/'
+if 'OOI_DATADIR' in os.environ:
+   odir = os.path.join(os.environ['OOI_DATADIR'],'adcp','rec','') 
+else:
+   odir='/home/om/cron/pioneer/adcp/rec/'
 
 #moorlist=[ "CP03ISSM", "CP04OSSM",   "CP02PMCI", "CP02PMCO", "CP02PMUI",  "CP02PMUO","CP01CNSM"]
 #mlat=[39.94,40.36,40.2266,40.0961,40.3634,39.9416,40.1332] 
@@ -23,6 +36,7 @@ odir='/home/om/cron/pioneer/adcp/rec/'
 mlat={"CP03ISSM":40.359,"CP04OSSM":39.94,"CP02PMCI":40.2266,"CP02PMCO":40.0961, "CP02PMUI":40.3634,"CP02PMUO":39.9416,"CP01CNSM":40.140} 
 mlon={"CP03ISSM":-70.885,"CP04OSSM":-70.877,"CP02PMCI":-70.8886,"CP02PMCO":-70.8797, "CP02PMUI":-70.7760,"CP02PMUO":-70.7784,"CP01CNSM":-70.772}
 bcut={"CP03ISSM":70,"CP04OSSM":300,"CP02PMCI":100,"CP02PMCO":100, "CP02PMUI":65,"CP02PMUO":300,"CP01CNSM":100}
+
 def main(argv):
     
     print opts.mooring    
@@ -31,7 +45,6 @@ def main(argv):
         lat=mlat[moor]
         lon=mlon[moor]
         for n in range(20):
-            
             DEP='R%5.5d' % n
             infile=glob.glob(odir+moor+'/'+DEP+'_'+'CONCATENATE.DAT') 
             ofile=odir+'PIONEER_ADCP_RECOVERED_'+moor+'_'+DEP+'.nc'
